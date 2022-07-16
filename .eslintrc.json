@@ -16,8 +16,19 @@
     ],
     "rules": {
       "quotes": ["error", "single"],
-      "semi": ["error", "always"],
+      "semi": ["error", "never"],
       "indent": ["error", 2],
       "no-multi-spaces": ["error"]
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/*.spec.ts",
+          "**/*.e2e-spec.ts"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
 }
