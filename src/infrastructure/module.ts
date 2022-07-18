@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { STUDENT_REPOSITORY_KEY } from 'src/domain/student'
 import { PrismaService, PRISMA_SERVICE_KEY } from './common/prisma.service'
+import { ClassInfrastructureProfile } from './profile/class.infrastructure.profile'
 import { StudentInfrastructureProfile } from './profile/student.infrastructure.profile'
 import { DatabaseStudentRepository } from './repository/database-student.repository'
 
@@ -8,6 +9,7 @@ import { DatabaseStudentRepository } from './repository/database-student.reposit
   imports: [],
   providers: [
     StudentInfrastructureProfile,
+    ClassInfrastructureProfile,
     {
       provide: PRISMA_SERVICE_KEY,
       useClass: PrismaService
