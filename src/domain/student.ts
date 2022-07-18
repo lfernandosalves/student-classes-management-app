@@ -11,3 +11,9 @@ export class Student {
     return true
   }
 }
+
+export interface StudentRepository {
+  listAll(): Promise<Student[]>
+}
+
+export const STUDENT_REPOSITORY_KEY = 'studentRepositoryKey'
