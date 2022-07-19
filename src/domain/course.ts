@@ -5,3 +5,9 @@ export class Course {
   name: string
   classes?: Class[]
 }
+
+export interface CourseRepository {
+  listAll(): Promise<Course[]>
+}
+
+export const COURSE_REPOSITORY_KEY = 'courseRepositoryKey'
