@@ -33,7 +33,7 @@ async function createStudentsAndClass (): Promise<void> {
       name: 'Seed Student',
       email: 'student@test.com',
       cpf: '1234567890',
-      classes: {
+      class: {
         create: {
           name: 'Class 01',
           startDate: new Date('2022-01-01'),

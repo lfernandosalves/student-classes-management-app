@@ -1,6 +1,6 @@
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs'
 import { Injectable } from '@nestjs/common'
-import { Mapper, mapFrom, mapWith, createMap, forMember, MappingProfile } from '@automapper/core'
+import { Mapper, mapFrom, mapWith, createMap, forMember } from '@automapper/core'
 import { Student } from 'src/domain/student'
 import { PrismaModel } from 'prisma/model'
 import { Class } from 'src/domain/class'
