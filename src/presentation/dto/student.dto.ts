@@ -5,7 +5,7 @@ export class StudentDTO {
   name: string
   cpf: string
   email: string
-  classes: ClassDTO[]
+  class: ClassDTO
 }
 
 export class CreateStudentDTO {

@@ -7,7 +7,7 @@ export class Student {
   name: string
   cpf: string
   email?: string
-  classes: Class[]
+  class?: Class
 
   static isCpfValid (cpf: string): boolean {
     const onlyNumbersCpf = cpf.replace(/\./g, '').replace(/-/g, '')

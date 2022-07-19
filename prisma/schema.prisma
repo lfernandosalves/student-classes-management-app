@@ -6,10 +6,10 @@ generator client {
 }
 
 generator prismaClassGenerator {
-  provider = "prisma-class-generator"
-  output = "./model"
+  provider   = "prisma-class-generator"
+  output     = "./model"
   useSwagger = false
-  dryRun = false
+  dryRun     = false
 }
 
 datasource db {
@@ -45,7 +45,8 @@ model Student {
   name    String  @db.VarChar(255)
   cpf     String  @unique @db.Char(11)
   email   String?
-  classes Class[]
+  classId String?
+  class   Class?  @relation(fields: [classId], references: [id])
 }
 
 model Lesson {

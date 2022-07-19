@@ -8,7 +8,7 @@ import { UpdateClassUseCase } from 'src/use-cases/class/update-class.use-case'
 import { USE_CASE_CREATE_CLASS, USE_CASE_LIST_CLASSES, USE_CASE_REMOVE_CLASS, USE_CASE_UPDATE_CLASS } from 'src/use-cases/module'
 import { ClassDTO, CreateClassDTO, UpdateClassDTO } from '../dto/class.dto'
 
-@Controller('class')
+@Controller('classes')
 export class ClassController {
   constructor (
     @Inject(USE_CASE_LIST_CLASSES)

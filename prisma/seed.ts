@@ -13,6 +13,20 @@ async function createUser (): Promise<void> {
   console.log(`created user ${user.name}`)
 }
 
+async function createCourse (): Promise<void> {
+  const course = await prisma.course.createMany({
+    data: [
+      {
+        name: 'Programação'
+      }, {
+        name: 'Design'
+      }
+    ]
+  })
+
+  console.log('created courses')
+}
+
 async function createStudentsAndClass (): Promise<void> {
   const student = await prisma.student.create({
     data: {
@@ -40,6 +54,7 @@ async function createStudentsAndClass (): Promise<void> {
 async function main () {
   console.log('Start seeding ...')
   await createUser()
+  await createCourse()
   await createStudentsAndClass()
   console.log('Seeding finished.')
 }

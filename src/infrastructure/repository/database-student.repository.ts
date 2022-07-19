@@ -18,7 +18,7 @@ export class DatabaseStudentRepository implements StudentRepository {
   async listAll (): Promise<Student[]> {
     const students = await this.prisma.student.findMany({
       include: {
-        classes: true
+        class: true
       }
     })
     return this.mapper.mapArray<PrismaModel.Student, Student>(<PrismaModel.Student[]>students, PrismaModel.Student, Student)
