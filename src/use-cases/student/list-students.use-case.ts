@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common'
-import { Student, StudentRepository, STUDENT_REPOSITORY_KEY } from 'src/domain/student'
+import { Student, StudentRepository, STUDENT_REPOSITORY_KEY } from '../../../src/domain/student'
 
 export class ListStudentsUseCase {
   constructor (

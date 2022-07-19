@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common'
-import { Student, StudentRepository, STUDENT_REPOSITORY_KEY } from 'src/domain/student'
+import { InvalidCpfException, Student, StudentRepository, STUDENT_REPOSITORY_KEY } from '../../../src/domain/student'
 
 export type UpdateStudentData = {
   id: string
@@ -15,6 +15,9 @@ export class UpdateStudentsUseCase {
   ) {}
 
   async execute (updateData: UpdateStudentData): Promise<Student> {
+    if (!Student.isCpfValid(updateData.cpf)) {
+      throw new InvalidCpfException()
+    }
     return this.studentRepository.update(updateData)
   }
 }

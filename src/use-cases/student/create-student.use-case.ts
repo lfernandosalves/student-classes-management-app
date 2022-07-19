@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common'
-import { InvalidCpfException, Student, StudentRepository, STUDENT_REPOSITORY_KEY } from 'src/domain/student'
+import { InvalidCpfException, Student, StudentRepository, STUDENT_REPOSITORY_KEY } from '../../../src/domain/student'
 
 export type CreateStudentData = {
   name: string

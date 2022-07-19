@@ -1,6 +1,6 @@
 import { MapInterceptor } from '@automapper/nestjs'
-import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Post, Put, UseInterceptors } from '@nestjs/common'
-import { Student } from 'src/domain/student'
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Inject, Param, Post, Put, UseInterceptors } from '@nestjs/common'
+import { InvalidCpfException, Student } from 'src/domain/student'
 import { USE_CASE_CREATE_STUDENT, USE_CASE_LIST_STUDENTS, USE_CASE_REMOVE_STUDENT, USE_CASE_UPDATE_STUDENT } from 'src/use-cases/module'
 import { CreateStudentsUseCase } from 'src/use-cases/student/create-student.use-case'
 import { ListStudentsUseCase } from 'src/use-cases/student/list-students.use-case'
@@ -31,22 +31,45 @@ export class StudentController {
   @HttpCode(204)
   async create (@Body() createStudentDto: CreateStudentDTO): Promise<Student> {
     const { email, name, cpf } = createStudentDto
-    return this.createStudentUseCase.execute({
-      name,
-      email,
-      cpf
-    })
+
+    try {
+      const student = await this.createStudentUseCase.execute({
+        name,
+        email,
+        cpf
+      })
+
+      return student
+    } catch (error) {
+      if (error instanceof InvalidCpfException) {
+        throw new HttpException({
+          status: HttpStatus.BAD_REQUEST,
+          error: error.message
+        }, HttpStatus.BAD_REQUEST)
+      }
+    }
   }
 
   @Put(':id')
   async update (@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDTO): Promise<Student> {
     const { email, name, cpf } = updateStudentDto
-    return this.updateStudentUseCase.execute({
-      id,
-      name,
-      email,
-      cpf
-    })
+    try {
+      const updated = await this.updateStudentUseCase.execute({
+        id,
+        name,
+        email,
+        cpf
+      })
+
+      return updated
+    } catch (error) {
+      if (error instanceof InvalidCpfException) {
+        throw new HttpException({
+          status: HttpStatus.BAD_REQUEST,
+          error: error.message
+        }, HttpStatus.BAD_REQUEST)
+      }
+    }
   }
 
   @Delete(':id')

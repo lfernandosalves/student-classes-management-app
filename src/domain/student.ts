@@ -10,7 +10,9 @@ export class Student {
   classes: Class[]
 
   static isCpfValid (cpf: string): boolean {
-    return true
+    const onlyNumbersCpf = cpf.replace(/\./g, '').replace(/-/g, '')
+    const checkRegex = /\d{11}/ // basic format check, just for demonstration
+    return onlyNumbersCpf.length === 11 && checkRegex.test(onlyNumbersCpf)
   }
 }
 
