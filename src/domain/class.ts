@@ -25,6 +25,7 @@ export interface ClassRepository {
   remove(id: string): Promise<boolean>
   enrollStudentToClass(studentId: string, classId: string): Promise<boolean>
   getClassesByDates(startDate: Date, endDate: Date): Promise<Class[]>
+  findById(id: string): Promise<Class | null>
 }
 
 export const CLASS_REPOSITORY_KEY = 'classRepositoryKey'

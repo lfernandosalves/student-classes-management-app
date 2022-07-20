@@ -74,4 +74,19 @@ export class DatabaseLessonRepository implements LessonRepository {
 
     return deleted !== undefined
   }
+
+  async getLessonOnDay (date: Date, classId: string): Promise<Lesson> {
+    const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay() + 1}`
+    const lesson = await this.prisma.lesson.findFirst({
+      where: {
+        classId,
+        AND: [
+          { date: { gte: new Date(`${dateString} 00:00:00`) } },
+          { date: { lte: new Date(`${dateString} 23:59:59`) } }
+        ]
+      }
+    })
+
+    return this.mapper.map(<PrismaModel.Lesson>lesson, PrismaModel.Lesson, Lesson)
+  }
 }

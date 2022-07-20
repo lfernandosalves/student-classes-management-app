@@ -1,5 +1,5 @@
 import { MapInterceptor } from '@automapper/nestjs'
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Inject, Param, Post, Put, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Inject, Param, Post, Put, UseInterceptors } from '@nestjs/common'
 import { Class, ClassDateNotAvailableException, InvalidClassDatesException } from 'src/domain/class'
 import { AlreadyEnrolledException } from 'src/domain/student'
 import { CreateClassUseCase } from 'src/use-cases/class/create-class.use-case'
@@ -52,14 +52,7 @@ export class ClassController {
 
       return newClass
     } catch (error) {
-      if (error instanceof InvalidClassDatesException) {
-        throw new HttpException({
-          status: HttpStatus.BAD_REQUEST,
-          error: error.message
-        }, HttpStatus.BAD_REQUEST)
-      }
-
-      if (error instanceof ClassDateNotAvailableException) {
+      if (error instanceof InvalidClassDatesException || error instanceof ClassDateNotAvailableException) {
         throw new HttpException({
           status: HttpStatus.BAD_REQUEST,
           error: error.message
@@ -85,14 +78,7 @@ export class ClassController {
 
       return updated
     } catch (error) {
-      if (error instanceof InvalidClassDatesException) {
-        throw new HttpException({
-          status: HttpStatus.BAD_REQUEST,
-          error: error.message
-        }, HttpStatus.BAD_REQUEST)
-      }
-
-      if (error instanceof ClassDateNotAvailableException) {
+      if (error instanceof InvalidClassDatesException || error instanceof ClassDateNotAvailableException) {
         throw new HttpException({
           status: HttpStatus.BAD_REQUEST,
           error: error.message

@@ -114,4 +114,13 @@ export class DatabaseClassRepository implements ClassRepository {
 
     return this.mapper.mapArray<PrismaModel.Class, Class>(<PrismaModel.Class[]>classes, PrismaModel.Class, Class)
   }
+
+  async findById (id: string): Promise<Class> {
+    const found = await this.prisma.class.findUnique({
+      where: {
+        id
+      }
+    })
+    return this.mapper.map(<PrismaModel.Class>found, PrismaModel.Class, Class)
+  }
 }
