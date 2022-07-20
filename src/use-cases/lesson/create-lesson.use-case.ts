@@ -1,6 +1,12 @@
 import { Inject } from '@nestjs/common'
-import { ClassRepository, CLASS_REPOSITORY_KEY } from 'src/domain/class'
-import { InvalidLessonClassDateConflictException, InvalidLessonDayException, Lesson, LessonRepository, LESSON_REPOSITORY_KEY } from '../../../src/domain/lesson'
+import { ClassRepository, CLASS_REPOSITORY_KEY } from '../../../src/domain/class'
+import {
+  InvalidLessonClassDateConflictException,
+  InvalidLessonDayException,
+  Lesson,
+  LessonRepository,
+  LESSON_REPOSITORY_KEY
+} from '../../../src/domain/lesson'
 
 export type CreateLessonData = {
   name: string
