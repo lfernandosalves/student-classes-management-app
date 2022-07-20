@@ -3,7 +3,7 @@ import { CreateClassData } from 'src/use-cases/class/create-class.use-case'
 import { UpdateClassData } from 'src/use-cases/class/update-class.use-case'
 import { generateMockName, generateMockUuid } from './util.mock'
 
-function generateClass (): Class {
+export function generateClass (): Class {
   return {
     id: generateMockUuid(),
     name: generateMockName(),
@@ -16,6 +16,14 @@ function generateClass (): Class {
 }
 
 export class ClassRepositoryMock implements ClassRepository {
+  async getClassesByDates (startDate: Date, endDate: Date): Promise<Class[]> {
+    return []
+  }
+
+  async findById (id: string): Promise<Class> {
+    return generateClass()
+  }
+
   async listAll (): Promise<Class[]> {
     return [generateClass()]
   }
@@ -44,5 +52,9 @@ export class ClassRepositoryMock implements ClassRepository {
       lessons: [],
       students: []
     }
+  }
+
+  async enrollStudentToClass (studentId: string, classId: string): Promise<boolean> {
+    return true
   }
 }

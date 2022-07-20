@@ -3,3 +3,4 @@ dist
 .vscode
 .env
 prisma/model
+test/unit/coverage

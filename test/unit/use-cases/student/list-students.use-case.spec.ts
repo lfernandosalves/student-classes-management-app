@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing'
 import { StudentRepositoryMock } from '../../../../test/unit/mockery/student.mock'
-import { InvalidCpfException, Student, STUDENT_REPOSITORY_KEY } from '../../../../src/domain/student'
+import { STUDENT_REPOSITORY_KEY } from '../../../../src/domain/student'
 import { ListStudentsUseCase } from '../../../../src/use-cases/student/list-students.use-case'
 
 describe('List Students Use Case', () => {
@@ -28,7 +28,7 @@ describe('List Students Use Case', () => {
       name: expect.any(String),
       cpf: expect.any(String),
       email: expect.any(String),
-      classes: expect.any(Array)
+      class: null
     })
   })
 })

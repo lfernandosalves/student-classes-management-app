@@ -1,6 +1,8 @@
+import { Class } from 'src/domain/class'
 import { Student, StudentRepository } from 'src/domain/student'
 import { CreateStudentData } from 'src/use-cases/student/create-student.use-case'
 import { UpdateStudentData } from 'src/use-cases/student/update-student.use-case'
+import { generateClass } from './class.mock'
 import { generateMockEmail, generateMockName, generateMockUuid } from './util.mock'
 
 function generateStudent (): Student {
@@ -9,15 +11,19 @@ function generateStudent (): Student {
     name: generateMockName(),
     email: generateMockEmail(),
     cpf: '44422211100',
-    classes: []
+    class: null
   }
 }
 
 export class StudentRepositoryMock implements StudentRepository {
+  async getClass (id: string): Promise<Class> {
+    return generateClass()
+  }
+
   async update (updateData: UpdateStudentData): Promise<Student> {
     return {
       ...updateData,
-      classes: []
+      class: null
     }
   }
 
@@ -36,7 +42,7 @@ export class StudentRepositoryMock implements StudentRepository {
       name,
       email,
       cpf,
-      classes: []
+      class: null
     }
   }
 }

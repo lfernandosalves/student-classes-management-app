@@ -43,6 +43,6 @@ describe('Update Student Use Case', () => {
     expect(student.name).toEqual(updateData.name)
     expect(student.email).toEqual(updateData.email)
     expect(student.cpf).toEqual(updateData.cpf)
-    expect(student.classes).toEqual([])
+    expect(student.class).toEqual(null)
   })
 })

@@ -41,6 +41,6 @@ describe('Create Student Use Case', () => {
     expect(student.name).toEqual(createData.name)
     expect(student.email).toEqual(createData.email)
     expect(student.cpf).toEqual(createData.cpf)
-    expect(student.classes).toEqual([])
+    expect(student.class).toEqual(null)
   })
 })

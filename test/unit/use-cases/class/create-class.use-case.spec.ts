@@ -1,10 +1,11 @@
 import { Test } from '@nestjs/testing'
 import { CreateClassData, CreateClassUseCase } from '../../../../src/use-cases/class/create-class.use-case'
-import { CLASS_REPOSITORY_KEY, InvalidClassDatesException } from '../../../../src/domain/class'
+import { Class, ClassDateNotAvailableException, CLASS_REPOSITORY_KEY, InvalidClassDatesException } from '../../../../src/domain/class'
 import { ClassRepositoryMock } from '../../../../test/unit/mockery/class.mock'
 
 describe('Create Class Use Case', () => {
   let createClassUseCase: CreateClassUseCase
+  let classRepositoryMock: ClassRepositoryMock
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       controllers: [],
@@ -18,6 +19,7 @@ describe('Create Class Use Case', () => {
     }).compile()
 
     createClassUseCase = moduleRef.get<CreateClassUseCase>(CreateClassUseCase)
+    classRepositoryMock = moduleRef.get<ClassRepositoryMock>(CLASS_REPOSITORY_KEY)
   })
 
   it('should throw exception if dates are invalid', async () => {
@@ -28,6 +30,18 @@ describe('Create Class Use Case', () => {
       courseId: '123'
     }
     await expect(createClassUseCase.execute(createData)).rejects.toThrow(InvalidClassDatesException)
+  })
+
+  it('should throw exception if dates are not available', async () => {
+    const createData: CreateClassData = {
+      name: 'test',
+      startDate: new Date('2022-01-01'),
+      endDate: new Date('2022-04-01'),
+      courseId: '123'
+    }
+
+    jest.spyOn(classRepositoryMock, 'getClassesByDates').mockResolvedValue([new Class()])
+    await expect(createClassUseCase.execute(createData)).rejects.toThrow(ClassDateNotAvailableException)
   })
 
   it('should return valid student on success', async () => {
