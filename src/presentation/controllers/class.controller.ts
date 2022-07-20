@@ -1,5 +1,6 @@
 import { MapInterceptor } from '@automapper/nestjs'
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Inject, Param, Post, Put, UseInterceptors } from '@nestjs/common'
+import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Class, ClassDateNotAvailableException, InvalidClassDatesException } from 'src/domain/class'
 import { AlreadyEnrolledException } from 'src/domain/student'
 import { CreateClassUseCase } from 'src/use-cases/class/create-class.use-case'
@@ -17,6 +18,7 @@ import {
 import { ClassDTO, CreateClassDTO, EnrollStudentInClassDTO, UpdateClassDTO } from '../dto/class.dto'
 
 @Controller('classes')
+@ApiTags('classes')
 export class ClassController {
   constructor (
     @Inject(USE_CASE_LIST_CLASSES)
@@ -33,12 +35,21 @@ export class ClassController {
 
   @UseInterceptors(MapInterceptor(Class, ClassDTO, { isArray: true }))
   @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'List the classes.',
+    type: ClassDTO
+  })
   list (): Promise<Class[]> {
     return this.listClassesUseCase.execute()
   }
 
   @Post()
   @UseInterceptors(MapInterceptor(Class, ClassDTO))
+  @ApiResponse({
+    description: 'Create a new class.',
+    type: ClassDTO
+  })
   async create (@Body() createClassDto: CreateClassDTO): Promise<Class> {
     const { name, courseId, startDate, endDate } = createClassDto
 
@@ -65,6 +76,11 @@ export class ClassController {
 
   @Put(':id')
   @UseInterceptors(MapInterceptor(Class, ClassDTO))
+  @ApiResponse({
+    status: 200,
+    description: 'Update a class.',
+    type: ClassDTO
+  })
   async update (@Param('id') id: string, @Body() updateClassDto: UpdateClassDTO): Promise<Class> {
     const { name, courseId, startDate, endDate } = updateClassDto
     try {
@@ -90,12 +106,22 @@ export class ClassController {
   }
 
   @Delete(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Remove a class.',
+    type: String
+  })
   async delete (@Param('id') id: string): Promise<string> {
     await this.removeClassUseCase.execute(id)
     return `Class #${id} removed!`
   }
 
   @Post('enroll-student')
+  @ApiResponse({
+    status: 200,
+    description: 'Enroll a student in a class.',
+    type: String
+  })
   async enrollStudentInClass (@Body() enrollStudentInClassDTO: EnrollStudentInClassDTO): Promise<string> {
     const { studentId, classId } = enrollStudentInClassDTO
 

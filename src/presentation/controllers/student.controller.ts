@@ -1,5 +1,6 @@
 import { MapInterceptor } from '@automapper/nestjs'
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Inject, Param, Post, Put, UseInterceptors } from '@nestjs/common'
+import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { InvalidCpfException, Student } from 'src/domain/student'
 import { USE_CASE_CREATE_STUDENT, USE_CASE_LIST_STUDENTS, USE_CASE_REMOVE_STUDENT, USE_CASE_UPDATE_STUDENT } from 'src/use-cases/module'
 import { CreateStudentsUseCase } from 'src/use-cases/student/create-student.use-case'
@@ -9,6 +10,7 @@ import { UpdateStudentsUseCase } from 'src/use-cases/student/update-student.use-
 import { CreateStudentDTO, StudentDTO, UpdateStudentDTO } from '../dto/student.dto'
 
 @Controller('students')
+@ApiTags('students')
 export class StudentController {
   constructor (
     @Inject(USE_CASE_LIST_STUDENTS)
@@ -23,12 +25,20 @@ export class StudentController {
 
   @UseInterceptors(MapInterceptor(Student, StudentDTO, { isArray: true }))
   @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'List students.',
+    type: StudentDTO
+  })
   list (): Promise<Student[]> {
     return this.listStudentsUseCase.execute()
   }
 
   @Post()
-  @HttpCode(204)
+  @ApiResponse({
+    description: 'Create a new student.',
+    type: StudentDTO
+  })
   async create (@Body() createStudentDto: CreateStudentDTO): Promise<Student> {
     const { email, name, cpf } = createStudentDto
 
@@ -51,6 +61,11 @@ export class StudentController {
   }
 
   @Put(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Update a student.',
+    type: StudentDTO
+  })
   async update (@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDTO): Promise<Student> {
     const { email, name, cpf } = updateStudentDto
     try {
@@ -73,6 +88,11 @@ export class StudentController {
   }
 
   @Delete(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Remove a student.',
+    type: String
+  })
   async delete (@Param('id') id: string): Promise<string> {
     const deleted = await this.removeStudentUseCase.execute(id)
     return `Student #${id} removed!`

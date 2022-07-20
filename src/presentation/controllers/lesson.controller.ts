@@ -1,5 +1,6 @@
 import { MapInterceptor } from '@automapper/nestjs'
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Inject, Param, Post, Put, UseInterceptors } from '@nestjs/common'
+import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { InvalidClassDatesException } from 'src/domain/class'
 import { Lesson } from 'src/domain/lesson'
 import { CreateLessonUseCase } from 'src/use-cases/lesson/create-lesson.use-case'
@@ -10,6 +11,7 @@ import { USE_CASE_CREATE_LESSON, USE_CASE_LIST_LESSONS, USE_CASE_REMOVE_LESSON, 
 import { CreateLessonDTO, LessonDTO, UpdateLessonDTO } from '../dto/lesson.dto'
 
 @Controller('lesson')
+@ApiTags('lessons')
 export class LessonController {
   constructor (
     @Inject(USE_CASE_LIST_LESSONS)
@@ -24,12 +26,20 @@ export class LessonController {
 
   @UseInterceptors(MapInterceptor(Lesson, LessonDTO, { isArray: true }))
   @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'List lessons.',
+    type: LessonDTO
+  })
   list (): Promise<Lesson[]> {
     return this.listLessonsUseCase.execute()
   }
 
   @Post()
-  @HttpCode(204)
+  @ApiResponse({
+    description: 'Create a new lesson.',
+    type: LessonDTO
+  })
   async create (@Body() createLessonDto: CreateLessonDTO): Promise<Lesson> {
     const { name, date, meetingUrl, topics, classId } = createLessonDto
 
@@ -54,6 +64,11 @@ export class LessonController {
   }
 
   @Put(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Update a lesson.',
+    type: LessonDTO
+  })
   async update (@Param('id') id: string, @Body() updateLessonDto: UpdateLessonDTO): Promise<Lesson> {
     const { name, date, meetingUrl, topics, classId } = updateLessonDto
     try {
@@ -78,6 +93,11 @@ export class LessonController {
   }
 
   @Delete(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Remove a lesson.',
+    type: String
+  })
   async delete (@Param('id') id: string): Promise<string> {
     await this.removeLessonUseCase.execute(id)
     return `Lesson #${id} removed!`
