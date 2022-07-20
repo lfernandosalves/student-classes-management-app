@@ -1,4 +1,5 @@
 import { ClassDTO } from './class.dto'
+import { IsUrl, IsNotEmpty, IsDateString, IsString, IsUUID } from 'class-validator'
 
 export class LessonDTO {
   id: string
@@ -10,11 +11,23 @@ export class LessonDTO {
 }
 
 export class CreateLessonDTO {
-  name: string
-  date: Date
-  classId: string
-  meetingUrl?: string
-  topics?: string
+  @IsNotEmpty()
+    name: string
+
+  @IsDateString()
+    date: Date
+
+  @IsUUID()
+    classId: string
+
+  @IsUrl()
+    meetingUrl?: string
+
+  @IsString()
+    topics?: string
 }
 
-export type UpdateLessonDTO = CreateLessonDTO & { id: string }
+export class UpdateLessonDTO extends CreateLessonDTO {
+  @IsUUID()
+    id: string
+}

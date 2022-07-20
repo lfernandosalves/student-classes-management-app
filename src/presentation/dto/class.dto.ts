@@ -1,5 +1,6 @@
 import { CourseDTO } from './course.dto'
 import { StudentDTO } from './student.dto'
+import { IsNotEmpty, IsDateString, IsUUID } from 'class-validator'
 
 export class ClassDTO {
   id: string
@@ -11,15 +12,28 @@ export class ClassDTO {
 }
 
 export class CreateClassDTO {
-  name: string
-  startDate: Date
-  endDate: Date
-  courseId: string
+  @IsNotEmpty()
+    name: string
+
+  @IsDateString()
+    startDate: Date
+
+  @IsDateString()
+    endDate: Date
+
+  @IsUUID()
+    courseId: string
 }
 
-export type UpdateClassDTO = CreateClassDTO & { id: string }
+export class UpdateClassDTO extends CreateClassDTO {
+  @IsUUID()
+    id: string
+}
 
 export class EnrollStudentInClassDTO {
-  studentId: string
-  classId: string
+  @IsUUID()
+    studentId: string
+
+  @IsUUID()
+    classId: string
 }

@@ -1,4 +1,5 @@
 import { ClassDTO } from './class.dto'
+import { IsEmail, IsNotEmpty } from 'class-validator'
 
 export class StudentDTO {
   id: string
@@ -9,13 +10,21 @@ export class StudentDTO {
 }
 
 export class CreateStudentDTO {
-  name: string
-  email: string
+  @IsNotEmpty()
+    name: string
+
+  @IsEmail()
+    email: string
+
   cpf: string
 }
 
 export class UpdateStudentDTO {
-  name: string
-  email: string
+  @IsNotEmpty()
+    name: string
+
+  @IsEmail()
+    email: string
+
   cpf: string
 }
