@@ -18,7 +18,8 @@ export class DatabaseClassRepository implements ClassRepository {
   async listAll (): Promise<Class[]> {
     const classes = await this.prisma.class.findMany({
       include: {
-        students: true
+        students: true,
+        course: true
       }
     })
     return this.mapper.mapArray<PrismaModel.Class, Class>(<PrismaModel.Class[]>classes, PrismaModel.Class, Class)
@@ -71,5 +72,46 @@ export class DatabaseClassRepository implements ClassRepository {
     })
 
     return deleted !== undefined
+  }
+
+  async enrollStudentToClass (studentId: string, classId: string): Promise<boolean> {
+    await this.prisma.student.update({
+      data: {
+        class: {
+          connect: {
+            id: classId
+          }
+        }
+      },
+      where: {
+        id: studentId
+      }
+    })
+
+    return true
+  }
+
+  async getClassesByDates (startDate: Date, endDate: Date): Promise<Class[]> {
+    const classes = await this.prisma.class.findMany({
+      where: {
+        AND: [
+          {
+            OR: [
+              { startDate: { lte: startDate } },
+              { startDate: { lte: endDate } }
+            ]
+          },
+          {
+            OR: [
+              { endDate: { gte: startDate } },
+              { endDate: { gte: endDate } }
+            ]
+          }
+        ]
+
+      }
+    })
+
+    return this.mapper.mapArray<PrismaModel.Class, Class>(<PrismaModel.Class[]>classes, PrismaModel.Class, Class)
   }
 }

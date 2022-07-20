@@ -8,6 +8,7 @@ import { StudentDTO } from 'src/presentation/dto/student.dto'
 import { ClassDTO } from 'src/presentation/dto/class.dto'
 import { Course } from 'src/domain/course'
 import { Lesson } from 'src/domain/lesson'
+import { CourseDTO } from 'src/presentation/dto/course.dto'
 
 @Injectable()
 export class ClassInfrastructureProfile extends AutomapperProfile {
@@ -71,7 +72,10 @@ export class ClassInfrastructureProfile extends AutomapperProfile {
         //   mapWith(Lesson, PrismaModel.Lesson, (source) => source.lessons || [])),
         forMember(
           (destination) => destination.students,
-          mapWith(StudentDTO, Student, (source) => source.students || []))
+          mapWith(StudentDTO, Student, (source) => source.students || [])),
+        forMember(
+          (destination) => destination.course,
+          mapWith(CourseDTO, Course, (source) => source.course))
 
       )
     }

@@ -2,6 +2,7 @@ import { Mapper } from '@automapper/core'
 import { InjectMapper } from '@automapper/nestjs'
 import { Inject, Injectable } from '@nestjs/common'
 import { PrismaModel } from 'prisma/model'
+import { Class } from 'src/domain/class'
 import { Student, StudentRepository } from 'src/domain/student'
 import { CreateStudentData } from 'src/use-cases/student/create-student.use-case'
 import { UpdateStudentData } from 'src/use-cases/student/update-student.use-case'
@@ -61,5 +62,18 @@ export class DatabaseStudentRepository implements StudentRepository {
     })
 
     return deleted !== undefined
+  }
+
+  async getClass (id: string): Promise<Class | null> {
+    const studentClass = await this.prisma.student.findFirst({
+      where: {
+        id
+      },
+      include: {
+        class: true
+      }
+    })
+
+    return this.mapper.map(<PrismaModel.Class>studentClass?.class, PrismaModel.Class, Class)
   }
 }

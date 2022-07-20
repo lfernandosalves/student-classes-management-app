@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { InfrastructureModule } from 'src/infrastructure/module'
 import { CreateClassUseCase } from './class/create-class.use-case'
+import { EnrollStudentInClassUseCase } from './class/enroll-student-in-class.use-case'
 import { ListClassesUseCase } from './class/list-classes.use-case'
 import { RemoveClassUseCase } from './class/remove-class.use-case'
 import { UpdateClassUseCase } from './class/update-class.use-case'
@@ -25,6 +26,7 @@ export const USE_CASE_LIST_CLASSES = 'useCaseListClasses'
 export const USE_CASE_CREATE_CLASS = 'useCaseCreateClass'
 export const USE_CASE_UPDATE_CLASS = 'useCaseUpdateClass'
 export const USE_CASE_REMOVE_CLASS = 'useCaseRemoveClass'
+export const USE_CASE_ENROLL_STUDENT_IN_CLASS = 'useCaseEnrollStudentInClass'
 
 export const USE_CASE_LIST_LESSONS = 'useCaseListLessons'
 export const USE_CASE_CREATE_LESSON = 'useCaseCreateLesson'
@@ -71,6 +73,10 @@ export const USE_CASE_REMOVE_LESSON = 'useCaseRemoveLesson'
       useClass: RemoveClassUseCase
     },
     {
+      provide: USE_CASE_ENROLL_STUDENT_IN_CLASS,
+      useClass: EnrollStudentInClassUseCase
+    },
+    {
       provide: USE_CASE_LIST_LESSONS,
       useClass: ListLessonsUseCase
     },
@@ -97,6 +103,7 @@ export const USE_CASE_REMOVE_LESSON = 'useCaseRemoveLesson'
     USE_CASE_CREATE_CLASS,
     USE_CASE_UPDATE_CLASS,
     USE_CASE_REMOVE_CLASS,
+    USE_CASE_ENROLL_STUDENT_IN_CLASS,
     USE_CASE_LIST_LESSONS,
     USE_CASE_CREATE_LESSON,
     USE_CASE_UPDATE_LESSON,

@@ -23,6 +23,8 @@ export interface ClassRepository {
   create(createData: CreateClassData): Promise<Class>
   update(updateData: UpdateClassData): Promise<Class>
   remove(id: string): Promise<boolean>
+  enrollStudentToClass(studentId: string, classId: string): Promise<boolean>
+  getClassesByDates(startDate: Date, endDate: Date): Promise<Class[]>
 }
 
 export const CLASS_REPOSITORY_KEY = 'classRepositoryKey'
@@ -30,6 +32,13 @@ export const CLASS_REPOSITORY_KEY = 'classRepositoryKey'
 export class InvalidClassDatesException extends Error {
   constructor () {
     const message = 'Invalid dates, end date must be greater than start date.'
+    super(message)
+  }
+}
+
+export class ClassDateNotAvailableException extends Error {
+  constructor () {
+    const message = 'Invalid dates, there is already a class within this time.'
     super(message)
   }
 }

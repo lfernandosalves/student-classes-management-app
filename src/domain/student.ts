@@ -21,6 +21,7 @@ export interface StudentRepository {
   create(createData: CreateStudentData): Promise<Student>
   update(updateData: UpdateStudentData): Promise<Student>
   remove(id: string): Promise<boolean>
+  getClass(id: string): Promise<Class | null>
 }
 
 export const STUDENT_REPOSITORY_KEY = 'studentRepositoryKey'
@@ -28,6 +29,13 @@ export const STUDENT_REPOSITORY_KEY = 'studentRepositoryKey'
 export class InvalidCpfException extends Error {
   constructor () {
     const message = 'Invalid CPF value.'
+    super(message)
+  }
+}
+
+export class AlreadyEnrolledException extends Error {
+  constructor () {
+    const message = 'Student is already enrolled in another class.'
     super(message)
   }
 }

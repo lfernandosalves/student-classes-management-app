@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common'
-import { Class, ClassRepository, CLASS_REPOSITORY_KEY, InvalidClassDatesException } from '../../../src/domain/class'
+import { Class, ClassDateNotAvailableException, ClassRepository, CLASS_REPOSITORY_KEY, InvalidClassDatesException } from '../../../src/domain/class'
 
 export type UpdateClassData = {
   id: string
@@ -16,10 +16,21 @@ export class UpdateClassUseCase {
   ) {}
 
   async execute (updateData: UpdateClassData): Promise<Class> {
-    if (!Class.isDateValid(updateData.startDate, updateData.endDate)) {
+    const { startDate, endDate, id } = updateData
+
+    if (!Class.isDateValid(startDate, endDate)) {
       throw new InvalidClassDatesException()
     }
 
+    if (!await this.isDateAvailable(startDate, endDate, id)) {
+      throw new ClassDateNotAvailableException()
+    }
+
     return this.classRepository.update(updateData)
+  }
+
+  async isDateAvailable (startDate: Date, endDate: Date, classId: string): Promise<boolean> {
+    const classesInInterval = await this.classRepository.getClassesByDates(startDate, endDate)
+    return (classesInInterval.filter((_class) => _class.id !== classId)).length === 0
   }
 }
