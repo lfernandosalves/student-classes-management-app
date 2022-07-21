@@ -1,5 +1,6 @@
 import { ClassDTO } from './class.dto'
-import { IsEmail, IsNotEmpty } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsUUID } from 'class-validator'
+import { ApiProperty } from '@nestjs/swagger'
 
 export class StudentDTO {
   id: string
@@ -10,21 +11,20 @@ export class StudentDTO {
 }
 
 export class CreateStudentDTO {
+  @ApiProperty()
   @IsNotEmpty()
     name: string
 
+  @ApiProperty()
   @IsEmail()
     email: string
 
-  cpf: string
+  @ApiProperty()
+    cpf: string
 }
 
-export class UpdateStudentDTO {
-  @IsNotEmpty()
-    name: string
-
-  @IsEmail()
-    email: string
-
-  cpf: string
+export class UpdateStudentDTO extends CreateStudentDTO {
+  @ApiProperty()
+  @IsUUID()
+    id: string
 }
