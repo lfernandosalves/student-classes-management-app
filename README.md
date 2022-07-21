@@ -16,6 +16,8 @@ $ npm install
 
 ## Subindo o ambiente para rodar a aplicação
 
+**Importante**: criar o arquivo .env com as configurações do banco de dados, seguindo o template do .env.example, antes de iniciar os containers.
+
 ```bash
 docker-compose up -d
 ```
