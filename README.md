@@ -46,8 +46,8 @@ Com a aplicação rodando, a documentação estará disponível em http://localh
 
 Regras de negócio da aplicação:
 
-● Uma turma não pode acontecer enquanto outra estiver em andamento
-● Um aluno não pode participar de mais de uma turma
-● Uma aula não pode acontecer enquanto outra estiver em andamento 
-● Uma aula não pode acontecer fora das datas de início e encerramento da turma
-● Uma turma só poder ter, no máximo, uma aula por dia
+- Uma turma não pode acontecer enquanto outra estiver em andamento
+- Um aluno não pode participar de mais de uma turma
+- Uma aula não pode acontecer enquanto outra estiver em andamento 
+- Uma aula não pode acontecer fora das datas de início e encerramento da turma
+- Uma turma só poder ter, no máximo, uma aula por dia
