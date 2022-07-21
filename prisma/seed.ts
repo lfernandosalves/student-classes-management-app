@@ -3,6 +3,9 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function createUser (): Promise<void> {
+  if (await prisma.user.count() > 0) {
+    return console.log('User already created!')
+  }
   const user = await prisma.user.create({
     data: {
       name: 'Seed User',
@@ -14,6 +17,9 @@ async function createUser (): Promise<void> {
 }
 
 async function createCourse (): Promise<void> {
+  if (await prisma.course.count() > 0) {
+    return console.log('Course already created!')
+  }
   const course = await prisma.course.createMany({
     data: [
       {
@@ -28,6 +34,9 @@ async function createCourse (): Promise<void> {
 }
 
 async function createStudentsAndClass (): Promise<void> {
+  if (await prisma.student.count() > 0) {
+    return console.log('Student already created!')
+  }
   const student = await prisma.student.create({
     data: {
       name: 'Seed Student',
