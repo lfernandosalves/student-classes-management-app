@@ -24,7 +24,5 @@ export class CreateStudentDTO {
 }
 
 export class UpdateStudentDTO extends CreateStudentDTO {
-  @ApiProperty()
-  @IsUUID()
-    id: string
+  id: string
 }

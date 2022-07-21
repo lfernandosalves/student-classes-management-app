@@ -42,9 +42,7 @@ export class CreateClassDTO {
 }
 
 export class UpdateClassDTO extends CreateClassDTO {
-  @ApiProperty()
-  @IsUUID()
-    id: string
+  id: string
 }
 
 export class EnrollStudentInClassDTO {

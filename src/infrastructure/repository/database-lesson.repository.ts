@@ -20,6 +20,9 @@ export class DatabaseLessonRepository implements LessonRepository {
 
   async listAll (): Promise<Lesson[]> {
     const lessons = await this.prisma.lesson.findMany({
+      include: {
+        class: true
+      }
     })
     return this.mapper.mapArray<PrismaModel.Lesson, Lesson>(<PrismaModel.Lesson[]>lessons, PrismaModel.Lesson, Lesson)
   }

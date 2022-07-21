@@ -2,7 +2,7 @@ import { MapInterceptor } from '@automapper/nestjs'
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Inject, Param, Post, Put, UseInterceptors } from '@nestjs/common'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { InvalidClassDatesException } from 'src/domain/class'
-import { Lesson } from 'src/domain/lesson'
+import { InvalidLessonDayException, Lesson } from 'src/domain/lesson'
 import { CreateLessonUseCase } from 'src/use-cases/lesson/create-lesson.use-case'
 import { ListLessonsUseCase } from 'src/use-cases/lesson/list-lessons.use-case'
 import { RemoveLessonUseCase } from 'src/use-cases/lesson/remove-lesson.use-case'
@@ -46,7 +46,7 @@ export class LessonController {
     try {
       const newClass = await this.createLessonUseCase.execute({
         name,
-        date,
+        date: new Date(date),
         meetingUrl,
         topics,
         classId
@@ -54,12 +54,14 @@ export class LessonController {
 
       return newClass
     } catch (error) {
-      if (error instanceof InvalidClassDatesException) {
+      if (error instanceof InvalidClassDatesException || InvalidLessonDayException) {
         throw new HttpException({
           status: HttpStatus.BAD_REQUEST,
           error: error.message
         }, HttpStatus.BAD_REQUEST)
       }
+
+      throw error
     }
   }
 
@@ -75,7 +77,7 @@ export class LessonController {
       const updated = await this.updateLessonUseCase.execute({
         id,
         name,
-        date,
+        date: new Date(date),
         meetingUrl,
         topics,
         classId
@@ -83,12 +85,14 @@ export class LessonController {
 
       return updated
     } catch (error) {
-      if (error instanceof InvalidClassDatesException) {
+      if (error instanceof InvalidClassDatesException || InvalidLessonDayException) {
         throw new HttpException({
           status: HttpStatus.BAD_REQUEST,
           error: error.message
         }, HttpStatus.BAD_REQUEST)
       }
+
+      throw error
     }
   }
 

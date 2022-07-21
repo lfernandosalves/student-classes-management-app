@@ -34,7 +34,5 @@ export class CreateLessonDTO {
 }
 
 export class UpdateLessonDTO extends CreateLessonDTO {
-  @ApiProperty()
-  @IsUUID()
-    id: string
+  id: string
 }

@@ -45,8 +45,8 @@ async function createStudentsAndClass (): Promise<void> {
       class: {
         create: {
           name: 'Class 01',
-          startDate: new Date('2022-01-01'),
-          endDate: new Date('2022-12-31'),
+          startDate: new Date('2020-01-01'),
+          endDate: new Date('2020-05-20'),
           course: {
             create: {
               name: 'Curso de Exemplo'
