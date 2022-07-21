@@ -47,8 +47,4 @@ export class CreateLessonUseCase {
     const lessonClass = await this.classRepository.findById(classId)
     return lessonClass && date >= lessonClass.startDate && date <= lessonClass.endDate
   }
-
-  async isUniqueDate (): Promise<boolean> {
-    return false
-  }
 }
